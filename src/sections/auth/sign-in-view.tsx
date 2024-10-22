@@ -49,7 +49,7 @@ export function SignInView() {
       sessionStorage.setItem("data", JSON.stringify(response?.data[0]));
       sessionStorage.setItem("isLoggedIn", "true");
       toast.success("Login Successfully")
-      router.push('/');
+      router.push('/dashboard');
     }
   }, [router]);
 
