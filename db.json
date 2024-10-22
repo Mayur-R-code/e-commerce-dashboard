@@ -1,15 +1,6 @@
 {
   "user-list": [
     {
-      "id": "6",
-      "fullName": "Kelvin Pouros",
-      "company": "Lehner - Feeney",
-      "isActive": true,
-      "avatarUrl": "/assets/images/avatar/avatar-6.webp",
-      "status": "banned",
-      "role": "Project Manager"
-    },
-    {
       "id": "7",
       "fullName": "Thelma Langworth",
       "company": "Leuschke, Harris and Kuhlman",

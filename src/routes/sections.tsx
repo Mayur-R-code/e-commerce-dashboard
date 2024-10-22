@@ -1,5 +1,5 @@
-import { lazy, Suspense } from 'react';
-import { Outlet, Navigate, useRoutes } from 'react-router-dom';
+import { lazy, Suspense, useEffect } from 'react';
+import { Outlet, Navigate, useRoutes, useLocation } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
@@ -7,6 +7,8 @@ import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgr
 import { varAlpha } from 'src/theme/styles';
 import { AuthLayout } from 'src/layouts/auth';
 import { DashboardLayout } from 'src/layouts/dashboard';
+
+import { useRouter } from './hooks';
 
 // ----------------------------------------------------------------------
 
@@ -33,8 +35,28 @@ const renderFallback = (
 );
 
 export function Router() {
+  const router = useRouter()
+  const authorized = sessionStorage.getItem("isLoggedIn");
+  const location = useLocation();
+  const allow_path = ["/sign-in"];
+
+  useEffect(() => {
+    const isLoggedIn = sessionStorage.getItem("isLoggedIn");
+
+    if (isLoggedIn) {
+      // If logged in and on allowed path, redirect to dashboard
+      if (allow_path.includes(location.pathname)) {
+        router.push("/dashboard");
+      }
+    } else if (!allow_path.includes(location.pathname)) {
+      // If not logged in and not on allowed path, redirect to sign-in
+      router.push("/sign-in");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router, location.pathname]);
+
   return useRoutes([
-    {
+    authorized ? { // If authorized, show dashboard layout
       element: (
         <DashboardLayout>
           <Suspense fallback={renderFallback}>
@@ -43,13 +65,12 @@ export function Router() {
         </DashboardLayout>
       ),
       children: [
-        { element: <HomePage />, index: true },
+        { path: 'dashboard', element: <HomePage />, index: true },
         { path: 'user', element: <UserPage /> },
         { path: 'products', element: <ProductsPage /> },
         { path: 'blog', element: <BlogPage /> },
       ],
-    },
-    {
+    } : { // If not authorized, allow access to sign-in
       path: 'sign-in',
       element: (
         <AuthLayout>
