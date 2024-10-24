@@ -7,6 +7,7 @@ import { Box, Grid, Stack, Button, Switch, Container, TextField, Autocomplete, F
 
 import { addUserApi } from 'src/api/user'
 import { getCompanyListApi } from 'src/api/company-list'
+import { LoadingButton } from '@mui/lab';
 
 
 interface userFormProps {
@@ -112,7 +113,7 @@ const UserForm = ({ handleDialogClose, fetchUserList }: userFormProps) => {
                     </Grid>
                 </Grid>
                 <Stack direction="row" gap={3} mt={2}>
-                    <Button type='submit' variant='contained' disabled={formik.isSubmitting}>Submit</Button>
+                    <LoadingButton type='submit' variant='contained' loading={formik.isSubmitting} >Submit</LoadingButton>
                     <Button variant='outlined' onClick={handleDialogClose}>Cancle</Button>
                 </Stack>
 
