@@ -11,4 +11,8 @@
 ## start the JSON server
 - **Start:** `npm run start-json-server`
 
+## User Module
 
+ ## mock credentials for this API url https://671b32ed2c842d92c37ee243.mockapi.io/users/v1/
+ ## Email:- dev123@mailinator.com
+ ## Password:- 123123123

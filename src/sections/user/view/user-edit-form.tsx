@@ -3,11 +3,11 @@ import { useFormik } from 'formik'
 import toast from 'react-hot-toast'
 import React, { useState, useEffect, useCallback } from 'react'
 
+import { LoadingButton } from '@mui/lab';
 import { Box, Grid, Stack, Button, Switch, Container, TextField, Autocomplete, FormControlLabel } from '@mui/material'
 
 import { getCompanyListApi } from 'src/api/company-list'
 import { updateUserApi, getUserByIdApi } from 'src/api/user'
-import { LoadingButton } from '@mui/lab';
 
 
 interface userFormProps {
@@ -77,7 +77,8 @@ const UserEditForm = ({ handleDialogClose, fetchUserList, userEditId }: userForm
     // fetch userData form API
     const fetchUserData = useCallback(async () => {
         const response = await getUserByIdApi(userEditId)
-        if (response.status === 200) {
+        console.log('response: ', response);
+        if (response?.status === 200) {
             // set the edit data in formik
             formik.setValues({
                 fullName: response.data.fullName,

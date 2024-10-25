@@ -13,8 +13,6 @@ import InputAdornment from '@mui/material/InputAdornment';
 
 import { useRouter } from 'src/routes/hooks';
 
-import { loginUserApi } from 'src/api/login';
-
 import { Iconify } from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
@@ -42,15 +40,14 @@ export function SignInView() {
 
   // form submit handler
   const handleSubmit = useCallback(async (values: Login) => {
-    const response = await loginUserApi(values)
-    if (response.status === 200) {
-
+    if (values.email !== "" && values.password !== "") {
       // set store login user data and set isLoggedIn key from session storage 
-      sessionStorage.setItem("data", JSON.stringify(response?.data[0]));
+      sessionStorage.setItem("data", JSON.stringify({ email: values.email, password: values.password }));
       sessionStorage.setItem("isLoggedIn", "true");
       toast.success("Login Successfully")
       router.push('/dashboard');
     }
+
   }, [router]);
 
   // formik
