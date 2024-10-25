@@ -31,10 +31,16 @@ export function SignInView() {
     email: '',
     password: '',
   }
+  const isNotMailinator = (value: string) => {
+    const mailinatorRegex = /@(mailinator\.com|yopmail\.com)$/i; // Check for both mailinator.com and yopmail.com domains
+    return !mailinatorRegex.test(value);
+  };
 
   // validationSchema
   const validationSchema = Yup.object().shape({
-    email: Yup.string().email().required('Email is required!'),
+    email: Yup.string().email('Invalid email format!')
+      .required('Email is required!')
+      .test('is-not-mailinator', 'Temporary email addresses are not allowed!', isNotMailinator),
     password: Yup.string().min(8, 'Must be 8 characters or more').required('Password is required!'),
   });
 
