@@ -33,6 +33,7 @@ interface User {
   role: string;
   isActive: boolean;
   id: string;
+  email: string;
 }
 
 export function AccountPopover({ data = [], sx, ...other }: AccountPopoverProps) {
@@ -64,11 +65,29 @@ export function AccountPopover({ data = [], sx, ...other }: AccountPopoverProps)
     router.push('/sign-in');
   }, [router])
 
-  const get_user_name = sessionStorage.getItem("data")
-  let user_name: User | null = null
+  // Retrieve user data from sessionStorage
+  const get_user_name = sessionStorage.getItem("data");
+  let user_name: User | null = null;
+
+  // Parse user data if it exists
   if (get_user_name) {
     user_name = JSON.parse(get_user_name);
   }
+
+  // Function to get characters before the '@' symbol in an email
+  function getCharactersBeforeAtSymbol(email: string): string {
+    const atIndex = email.indexOf('@'); // Find the index of the '@' symbol
+    if (atIndex === -1) {
+      return email; // If '@' is not found, return the whole string
+    }
+    return email.substring(0, atIndex); // Extract and return the substring before '@'
+  }
+
+  // Example usage using the user's email from the parsed data
+  const userEmail = user_name?.email || ''; // Default to an empty string if email is not available
+  const userNamePart = getCharactersBeforeAtSymbol(userEmail);
+
+
   return (
     <>
       <IconButton
@@ -84,7 +103,7 @@ export function AccountPopover({ data = [], sx, ...other }: AccountPopoverProps)
         {...other}
       >
         <Avatar src={_myAccount.photoURL} alt={_myAccount.displayName} sx={{ width: 1, height: 1 }}>
-          {user_name?.fullName?.charAt(0).toUpperCase() || "N/A"}
+          {userNamePart?.charAt(0).toUpperCase() || "N/A"}
         </Avatar>
       </IconButton>
 
@@ -102,12 +121,14 @@ export function AccountPopover({ data = [], sx, ...other }: AccountPopoverProps)
       >
         <Box sx={{ p: 2, pb: 1.5 }}>
           <Typography variant="subtitle2" noWrap>
-            {user_name?.fullName}
+            {userNamePart
+              ? userNamePart.charAt(0).toUpperCase() + userNamePart.slice(1).toLowerCase()
+              : ''}
           </Typography>
 
-          <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
+          {/* <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
             {user_name?.company}
-          </Typography>
+          </Typography> */}
         </Box>
 
         <Divider sx={{ borderStyle: 'dashed' }} />

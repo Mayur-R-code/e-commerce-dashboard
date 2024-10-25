@@ -2,7 +2,10 @@ import type { Method } from "axios";
 
 import axios from "axios";
 
-const API_URL = "https://e-commerce-json-server-dyyh.vercel.app/";
+
+const API_URL = "https://671b32ed2c842d92c37ee243.mockapi.io/users/v1/";
+
+// const API_URL = "http://localhost:5000/"
 
 interface ApiParameter {
     url: string;
@@ -17,16 +20,16 @@ export async function callApi({
     url,
     method,
     body,
-}: ApiParameter): Promise<any | null>{
+}: ApiParameter): Promise<any | null> {
 
-try {
-    const result = await axios({
-        url: API_URL + url,
-        method,
-        data: body,
-    });
-    return result;
-} catch (error) {
-    return null;
-}
+    try {
+        const result = await axios({
+            url: API_URL + url,
+            method,
+            data: body,
+        });
+        return result;
+    } catch (error) {
+        return null;
+    }
 }
