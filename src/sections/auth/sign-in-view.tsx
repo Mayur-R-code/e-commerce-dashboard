@@ -31,6 +31,8 @@ export function SignInView() {
     email: '',
     password: '',
   }
+
+  // check if the entered email is not a temporary one (mailinator.com or yopmail.com)
   const isNotMailinator = (value: string) => {
     const mailinatorRegex = /@(mailinator\.com|yopmail\.com)$/i; // Check for both mailinator.com and yopmail.com domains
     return !mailinatorRegex.test(value);
