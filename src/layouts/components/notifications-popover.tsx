@@ -17,6 +17,8 @@ import ListSubheader from '@mui/material/ListSubheader';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemButton from '@mui/material/ListItemButton';
 
+import { useRouter } from 'src/routes/hooks';
+
 import { fToNow } from 'src/utils/format-time';
 
 import { Iconify } from 'src/components/iconify';
@@ -40,6 +42,7 @@ export type NotificationsPopoverProps = IconButtonProps & {
 
 export function NotificationsPopover({ data = [], sx, ...other }: NotificationsPopoverProps) {
   const [notifications, setNotifications] = useState(data);
+  const router = useRouter()
 
   const totalUnRead = notifications.filter((item) => item.isUnRead === true).length;
 
@@ -142,11 +145,11 @@ export function NotificationsPopover({ data = [], sx, ...other }: NotificationsP
         <Divider sx={{ borderStyle: 'dashed' }} />
 
         <Box sx={{ p: 1 }}>
-          <Button fullWidth disableRipple color="inherit">
+          <Button fullWidth disableRipple color="inherit" onClick={() => { router.push("/notifications"); handleClosePopover(); }}>
             View all
           </Button>
         </Box>
-      </Popover>
+      </Popover >
     </>
   );
 }

@@ -112,8 +112,8 @@ export function UserView() {
 
       <Card>
         <UserTableToolbar
-          numSelected={table.selected.length}
           filterName={filterName}
+          setFilterName={setFilterName}
           onFilterName={(event: React.ChangeEvent<HTMLInputElement>) => {
             setFilterName(event.target.value);
             table.onResetPage();
@@ -126,15 +126,15 @@ export function UserView() {
               <UserTableHead
                 order={table.order}
                 orderBy={table.orderBy}
-                rowCount={userList.length}
-                numSelected={table.selected.length}
+                // rowCount={userList.length}
+                // numSelected={table.selected.length}
                 onSort={table.onSort}
-                onSelectAllRows={(checked) =>
-                  table.onSelectAllRows(
-                    checked,
-                    userList.map((user: any) => user.id)
-                  )
-                }
+                // onSelectAllRows={(checked) =>
+                //   table.onSelectAllRows(
+                //     checked,
+                //     userList.map((user: any) => user.id)
+                //   )
+                // }
                 headLabel={[
                   { id: 'name', label: 'Name', width: 260 },
                   { id: 'company', label: 'Company', width: 260 },

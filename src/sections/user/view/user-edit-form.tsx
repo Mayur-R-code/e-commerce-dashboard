@@ -77,7 +77,6 @@ const UserEditForm = ({ handleDialogClose, fetchUserList, userEditId }: userForm
     // fetch userData form API
     const fetchUserData = useCallback(async () => {
         const response = await getUserByIdApi(userEditId)
-        console.log('response: ', response);
         if (response?.status === 200) {
             // set the edit data in formik
             formik.setValues({

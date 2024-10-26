@@ -12,36 +12,20 @@ import { visuallyHidden } from './utils';
 
 type UserTableHeadProps = {
   orderBy: string;
-  rowCount: number;
-  numSelected: number;
   order: 'asc' | 'desc';
   onSort: (id: string) => void;
   headLabel: Record<string, any>[];
-  onSelectAllRows: (checked: boolean) => void;
 };
 
 export function UserTableHead({
   order,
   onSort,
   orderBy,
-  rowCount,
   headLabel,
-  numSelected,
-  onSelectAllRows,
 }: UserTableHeadProps) {
   return (
     <TableHead>
       <TableRow>
-        {/* <TableCell padding="checkbox">
-          <Checkbox
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-              onSelectAllRows(event.target.checked)
-            }
-          />
-        </TableCell> */}
-
         {headLabel.map((headCell) => (
           <TableCell
             key={headCell.id}

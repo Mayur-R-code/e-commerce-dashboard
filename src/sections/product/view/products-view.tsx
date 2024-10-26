@@ -1,8 +1,8 @@
 import { useState, useCallback } from 'react';
 
 import Box from '@mui/material/Box';
+import { Button } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
-import Pagination from '@mui/material/Pagination';
 import Typography from '@mui/material/Typography';
 
 import { _products } from 'src/_mock';
@@ -59,6 +59,7 @@ const defaultFilters = {
 
 export function ProductsView() {
   const [sortBy, setSortBy] = useState('featured');
+  const [seeMore, setSeeMore] = useState(4)
 
   const [openFilter, setOpenFilter] = useState(false);
 
@@ -83,6 +84,10 @@ export function ProductsView() {
   const canReset = Object.keys(filters).some(
     (key) => filters[key as keyof FiltersProps] !== defaultFilters[key as keyof FiltersProps]
   );
+
+  const handleSeeMore = useCallback(() => {
+    setSeeMore((prev) => prev + 4)
+  }, [])
 
   return (
     <DashboardContent>
@@ -131,14 +136,15 @@ export function ProductsView() {
       </Box>
 
       <Grid container spacing={3}>
-        {_products.map((product) => (
+        {_products?.slice(0, seeMore)?.map((product) => (
           <Grid key={product.id} xs={12} sm={6} md={3}>
             <ProductItem product={product} />
           </Grid>
         ))}
       </Grid>
-
-      <Pagination count={10} color="primary" sx={{ mt: 8, mx: 'auto' }} />
-    </DashboardContent>
+      {_products?.length > seeMore && <Box sx={{ width: "100%", display: "flex", justifyContent: "center", mt: 3 }}>
+        <Button variant='contained' onClick={handleSeeMore}>See More</Button>
+      </Box>}
+    </DashboardContent >
   );
 }

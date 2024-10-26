@@ -16,7 +16,7 @@ type PostSearchProps = {
   sx?: SxProps<Theme>;
   onFilterChange: (value: any) => void
   onClearFilter: VoidFunction;
-  filterName:any
+  filterName: any
 
 };
 
