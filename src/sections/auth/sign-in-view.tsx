@@ -32,17 +32,17 @@ export function SignInView() {
     password: '',
   }
 
-  // check if the entered email is not a temporary one (mailinator.com or yopmail.com)
-  const isNotMailinator = (value: string) => {
-    const mailinatorRegex = /@(mailinator\.com|yopmail\.com)$/i; // Check for both mailinator.com and yopmail.com domains
-    return !mailinatorRegex.test(value);
+  // Function to check if the email is a Gmail address
+  const isGmail = (value: string) => {
+    const gmailRegex = /@gmail\.com$/i; // Check for Gmail domain
+    return gmailRegex.test(value);
   };
 
   // validationSchema
   const validationSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email format!')
       .required('Email is required!')
-      .test('is-not-mailinator', 'Temporary email addresses are not allowed!', isNotMailinator),
+      .test('is-not-mailinator', 'Only Gmail addresses are allowed!', isGmail),
     password: Yup.string().min(8, 'Must be 8 characters or more').required('Password is required!'),
   });
 
