@@ -3,6 +3,7 @@ import { useState, useCallback } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Unstable_Grid2';
+import { CircularProgress } from '@mui/material';
 import Typography from '@mui/material/Typography';
 
 import { _posts } from 'src/_mock';
@@ -24,6 +25,7 @@ export function BlogView() {
   const [sortBy, setSortBy] = useState('latest');
   const [filterName, setFilterName] = useState('');
   const [seeMore, setSeeMore] = useState(3)
+  const [loader, setLoader] = useState(false)
 
   const dataFiltered: any = applyFilter({
     inputData: _posts,
@@ -49,7 +51,11 @@ export function BlogView() {
 
   // function to handle see more button click
   const handleSeeMore = useCallback(() => {
-    setSeeMore((prev) => prev + 4)
+    setLoader(true)
+    setTimeout(() => {
+      setLoader(false)
+      setSeeMore((prev) => prev + 4)
+    }, 900)
   }, [])
 
   return (
@@ -67,7 +73,7 @@ export function BlogView() {
         </Button>
       </Box>
 
-      <Box display="flex" alignItems="center" justifyContent="space-between" sx={{ mb: 5 }}>
+      <Box display="flex" alignItems="center" justifyContent="space-between" flexWrap="wrap" sx={{ mb: 5 }}>
         <PostSearch posts={_posts} onFilterChange={handleFilterChange} onClearFilter={handleClearFilter} filterName={filterName} />
         {filterName && <Button color='error' startIcon={<Iconify icon="solar:trash-bin-2-bold" />} onClick={handleClearFilter} > Clear All</Button>}
       </Box>
@@ -84,13 +90,15 @@ export function BlogView() {
               <Grid key={post.id} xs={12} sm={latestPostLarge ? 12 : 6} md={latestPostLarge ? 6 : 3}>
                 <PostItem post={post} latestPost={latestPost} latestPostLarge={latestPostLarge} />
               </Grid>
-
             </>
           );
         })}
+        <Box sx={{ width: "100%", display: "flex", justifyContent: "center", mt: 2 }}>
+          {loader && <CircularProgress />}
+        </Box>
       </Grid>
-      {dataFiltered?.length > seeMore && <Box sx={{ width: "100%", display: "flex", justifyContent: "center", mt: 3 }}>
-        <Button variant='contained' sx={{ width: "10%" }} onClick={handleSeeMore}>See More</Button>
+      {(dataFiltered?.length > seeMore && !loader )&& <Box sx={{ width: "100%", display: "flex", justifyContent: "center", mt: 3 }}>
+        <Button variant='contained' onClick={handleSeeMore}>See More</Button>
       </Box>}
     </DashboardContent>
   );

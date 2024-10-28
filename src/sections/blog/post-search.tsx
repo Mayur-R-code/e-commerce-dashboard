@@ -58,7 +58,7 @@ export function PostSearch({ posts, sx, onFilterChange, onClearFilter, filterNam
           }}
           InputProps={{
             ...params.InputProps,
-            endAdornment: (
+            endAdornment: filterName && (
               <InputAdornment position="end">
                 <IconButton onClick={onClearFilter} >
                   <Iconify

@@ -1,3 +1,4 @@
+import { Iconify } from 'src/components/iconify';
 import { Label } from 'src/components/label';
 import { SvgColor } from 'src/components/svg-color';
 
@@ -32,6 +33,11 @@ export const navData = [
     title: 'Blog',
     path: '/blog',
     icon: icon('ic-blog'),
+  },
+  {
+    title: 'Type Speed',
+    path: '/type-speed',
+    icon: <Iconify icon="line-md:speed-loop" width={24} height={24} />,
   },
   // {
   //   title: 'Sign in',

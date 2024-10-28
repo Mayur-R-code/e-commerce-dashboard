@@ -17,10 +17,15 @@ import { AnalyticsConversionRates } from '../analytics-conversion-rates';
 // ----------------------------------------------------------------------
 
 export function OverviewAnalyticsView() {
+  const userName: any = sessionStorage.getItem("data")
+  const displayUserName = JSON.parse(userName);
+  const user = Object.values(displayUserName);
+  const display_name = (user[0] as string).slice(0, (user[0] as string).indexOf('@'))
+
   return (
     <DashboardContent maxWidth="xl">
       <Typography variant="h4" sx={{ mb: { xs: 3, md: 5 } }}>
-        Hi, Welcome back 👋
+        Hi, {display_name.charAt(0).toUpperCase() + display_name.slice(1)} Welcome back 👋
       </Typography>
 
       <Grid container spacing={3}>

@@ -1,16 +1,15 @@
 import { useState, useCallback } from 'react';
 
 import Box from '@mui/material/Box';
-import { Button } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
+import { Button, CircularProgress } from '@mui/material';
 
 import { _products } from 'src/_mock';
 import { DashboardContent } from 'src/layouts/dashboard';
 
 import { ProductItem } from '../product-item';
 import { ProductSort } from '../product-sort';
-import { CartIcon } from '../product-cart-widget';
 import { ProductFilters } from '../product-filters';
 
 import type { FiltersProps } from '../product-filters';
@@ -60,6 +59,7 @@ const defaultFilters = {
 export function ProductsView() {
   const [sortBy, setSortBy] = useState('featured');
   const [seeMore, setSeeMore] = useState(4)
+  const [loader, setLoader] = useState(false)
 
   const [openFilter, setOpenFilter] = useState(false);
 
@@ -86,7 +86,11 @@ export function ProductsView() {
   );
 
   const handleSeeMore = useCallback(() => {
-    setSeeMore((prev) => prev + 4)
+    setLoader(true)
+    setTimeout(() => {
+      setLoader(false)
+      setSeeMore((prev) => prev + 4)
+    }, 900)
   }, [])
 
   return (
@@ -95,7 +99,7 @@ export function ProductsView() {
         Products
       </Typography>
 
-      <CartIcon totalItems={8} />
+      {/* <CartIcon totalItems={8} /> */}
 
       <Box
         display="flex"
@@ -142,7 +146,10 @@ export function ProductsView() {
           </Grid>
         ))}
       </Grid>
-      {_products?.length > seeMore && <Box sx={{ width: "100%", display: "flex", justifyContent: "center", mt: 3 }}>
+      <Box sx={{ width: "100%", display: "flex", justifyContent: "center", mt: 2 }}>
+        {loader && <CircularProgress />}
+      </Box>
+      {(_products?.length > seeMore && !loader) && <Box sx={{ width: "100%", display: "flex", justifyContent: "center", mt: 3 }}>
         <Button variant='contained' onClick={handleSeeMore}>See More</Button>
       </Box>}
     </DashboardContent >
